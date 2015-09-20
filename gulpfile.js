@@ -2,23 +2,23 @@
 var gulp         = require('gulp');
 
 // Include Our Plugins
-var sass         = require('gulp-sass');
-var concat       = require('gulp-concat');
-var uglify       = require('gulp-uglify');
-var rename       = require('gulp-rename');
 var autoprefixer = require('gulp-autoprefixer');
-var minifycss    = require('gulp-minify-css');
-var imagemin     = require('gulp-imagemin');
 var cache        = require('gulp-cache');
-var scsslint     = require('gulp-scss-lint');
-var livereload   = require('gulp-livereload');
+var concat       = require('gulp-concat');
+var imagemin     = require('gulp-imagemin');
 var jshint       = require('gulp-jshint');
-var size         = require('gulp-size');
-var lr           = require('tiny-lr');
-var gutil        = require('gulp-util');
+var livereload   = require('gulp-livereload');
+var minifycss    = require('gulp-minify-css');
 var plumber      = require('gulp-plumber');
-var server       = lr();
+var rename       = require('gulp-rename');
+var sass         = require('gulp-sass');
+var scsslint     = require('gulp-scss-lint');
+var size         = require('gulp-size');
 var svgSprite    = require('gulp-svg-sprite');
+var uglify       = require('gulp-uglify');
+var gutil        = require('gulp-util');
+var lr           = require('tiny-lr');
+var server       = lr();
 
 // This will handle our errors
 var onError = function (err) {
