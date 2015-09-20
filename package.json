@@ -1,0 +1,35 @@
+{
+  "name": "default-gulp-project",
+  "version": "1.0.0",
+  "description": "Base project for sites",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "ls -l"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomhazledine/gulpstarter"
+  },
+  "author": "@thomashazledine",
+  "license": "GPLv2",
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-autoprefixer": "0.0.8",
+    "gulp-cache": "^0.2.0",
+    "gulp-concat": "^2.3.4",
+    "gulp-imagemin": "^0.6.2",
+    "gulp-jshint": "^1.8.3",
+    "gulp-livereload": "^2.1.0",
+    "gulp-minify-css": "^0.3.7",
+    "gulp-plumber": "^0.6.4",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^0.7.2",
+    "gulp-scss-lint": "^0.1.2",
+    "gulp-size": "^1.0.0",
+    "gulp-svg-sprite": "^1.1.2",
+    "gulp-uglify": "^0.3.1",
+    "gulp-util": "^3.0.0",
+    "tiny-lr": "0.0.9",
+    "vinyl": "^0.4.6"
+  }
+}
