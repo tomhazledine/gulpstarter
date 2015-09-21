@@ -11,7 +11,7 @@
     "url": "https://github.com/tomhazledine/gulpstarter"
   },
   "author": "@thomashazledine",
-  "license": "GPLv2",
+  "license": "GPL-3.0",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "3.0.1",
