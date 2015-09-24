@@ -45,7 +45,8 @@ gulp.task('sass', function() {
     .pipe(minifycss())
     .pipe(size({title: 'css.min'}))
     .pipe(gulp.dest('assets/css'))
-    .pipe(livereload(server));
+    // .pipe(livereload(server));
+    livereload.listen();
 });
 
 // Concatenate & Minify JS
@@ -161,6 +162,16 @@ gulp.task('listen', function(next) {
     });
 });
 
+// var tinylr;
+// gulp.task('livereload', function() {
+//   lr = require('tiny-lr')();
+//   lr.listen(35729);
+// });
+
+// gulp.task('watch', function() {
+//   livereload.listen();
+//   gulp.watch('assets/css/*.css', ['sass']);
+// });
 
 // Watch Files For Changes
 gulp.task('watch', function() {
@@ -172,11 +183,10 @@ gulp.task('watch', function() {
     gulp.watch('uncompressed/images/**', ['images']);
     gulp.watch('uncompressed/fonts/**', ['fonts']);
     gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
-
-    gulp.watch(['*.html','*.php']).on('change', function(file) {
+    gulp.watch(['*.html','*.php','assets/css/*.css']).on('change', function(file) {
         livereload(server).changed(file.path);
     });
 });
 
 // Default Task
-gulp.task('default', ['sass', 'scripts', 'listen', 'watch']);
+gulp.task('default', ['watch']);
