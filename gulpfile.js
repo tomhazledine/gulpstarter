@@ -180,14 +180,14 @@ gulp.task('jslint', function() {
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    server.listen(35729, function(err) {
-        // .pipe(plumber({
-        //     errorHandler: onError
-        // }))
-        if (err) {
-            return onError(err);
-            // return gutil.log(err);
-        }
+    // server.listen(35728, function(err) {
+    //     // .pipe(plumber({
+    //     //     errorHandler: onError
+    //     // }))
+    //     if (err) {
+    //         return onError(err);
+    //         // return gutil.log(err);
+    //     }
         gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
         gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
         gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
@@ -197,7 +197,7 @@ gulp.task('watch', function() {
         gulp.watch('uncompressed/fonts/**', ['fonts']);
         gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
         gutil.log('Watching source files for changes... Press ' + gutil.colors.cyan('CTRL + C') + ' to stop.');
-    })
+    // })
     // gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
     // gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
     // gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
@@ -212,4 +212,4 @@ gulp.task('watch', function() {
 });
 
 // Default Task
-gulp.task('default', ['test']);
+gulp.task('default', ['watch']);
