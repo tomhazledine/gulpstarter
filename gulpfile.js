@@ -34,6 +34,11 @@ var onError = function (err) {
  * ----------
  */
 
+// Test Task
+gulp.task('test', function(){
+    console.log('testing with ' + gutil.colors.cyan('colour'));
+});
+
 // Compile Our Sass
 gulp.task('sass', function() {
     return gulp.src('uncompressed/scss/*.scss')
@@ -45,8 +50,8 @@ gulp.task('sass', function() {
     .pipe(minifycss())
     .pipe(size({title: 'css.min'}))
     .pipe(gulp.dest('assets/css'))
-    // .pipe(livereload(server));
-    livereload.listen();
+    .pipe(livereload(server));
+    // livereload.listen();
 });
 
 // Concatenate & Minify JS
@@ -84,7 +89,7 @@ gulp.task('staticjs', function() {
     }))
     .pipe(uglify())
     .pipe(gulp.dest('assets/js/static'))
-    .pipe(livereload(server));
+    // .pipe(livereload(server));
 });
 
 // Set up image minification
@@ -92,7 +97,7 @@ gulp.task('images', function() {
     return gulp.src('uncompressed/images/**')
     .pipe(cache(imagemin({ optimizationLevel: 9, progressive: true, interlaced: true })))
     .pipe(gulp.dest('assets/images'))
-    .pipe(livereload(server));
+    // .pipe(livereload(server));
 });
 
 // Fonts
@@ -155,12 +160,12 @@ gulp.task('jslint', function() {
  */
 
 // Livereload
-gulp.task('listen', function(next) {
-    server.listen(35728, function(err) {
-        if (err) return console.log;
-        next();
-    });
-});
+// gulp.task('listen', function(next) {
+//     server.listen(35728, function(err) {
+//         if (err) return console.log;
+//         next();
+//     });
+// });
 
 // var tinylr;
 // gulp.task('livereload', function() {
@@ -175,18 +180,36 @@ gulp.task('listen', function(next) {
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
-    gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
-    gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
-    gulp.watch('uncompressed/js/static/*.js', ['staticjs']);
-    gulp.watch('uncompressed/scss/*.scss', ['sass']);
-    gulp.watch('uncompressed/images/**', ['images']);
-    gulp.watch('uncompressed/fonts/**', ['fonts']);
-    gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
-    gulp.watch(['*.html','*.php','assets/css/*.css']).on('change', function(file) {
-        livereload(server).changed(file.path);
-    });
+    server.listen(35729, function(err) {
+        // .pipe(plumber({
+        //     errorHandler: onError
+        // }))
+        if (err) {
+            return onError(err);
+            // return gutil.log(err);
+        }
+        gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
+        gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
+        gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
+        gulp.watch('uncompressed/js/static/*.js', ['staticjs']);
+        gulp.watch('uncompressed/scss/*.scss', ['sass']);
+        gulp.watch('uncompressed/images/**', ['images']);
+        gulp.watch('uncompressed/fonts/**', ['fonts']);
+        gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
+        gutil.log('Watching source files for changes... Press ' + gutil.colors.cyan('CTRL + C') + ' to stop.');
+    })
+    // gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
+    // gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
+    // gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
+    // gulp.watch('uncompressed/js/static/*.js', ['staticjs']);
+    // gulp.watch('uncompressed/scss/*.scss', ['sass']);
+    // gulp.watch('uncompressed/images/**', ['images']);
+    // gulp.watch('uncompressed/fonts/**', ['fonts']);
+    // gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
+    // gulp.watch(['*.html','*.php','assets/css/*.css','assets/js/']).on('change', function(file) {
+    //     livereload(server).changed(file.path);
+    // });
 });
 
 // Default Task
-gulp.task('default', ['watch']);
+gulp.task('default', ['test']);
