@@ -34,11 +34,6 @@ var onError = function (err) {
  * ----------
  */
 
-// Test Task
-gulp.task('test', function(){
-    console.log('testing with ' + gutil.colors.cyan('colour'));
-});
-
 // Compile Our Sass
 gulp.task('sass', function() {
     return gulp.src('uncompressed/scss/*.scss')
@@ -49,9 +44,7 @@ gulp.task('sass', function() {
     .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
     .pipe(size({title: 'css.min'}))
-    .pipe(gulp.dest('assets/css'))
-    .pipe(livereload(server));
-    // livereload.listen();
+    .pipe(gulp.dest('assets/css'));
 });
 
 // Concatenate & Minify JS
@@ -66,8 +59,7 @@ gulp.task('scripts', function() {
     .pipe(rename('app.min.js'))
     .pipe(uglify())
     .pipe(size({title: 'js.min'}))
-    .pipe(gulp.dest('assets/js'))
-    .pipe(livereload(server));
+    .pipe(gulp.dest('assets/js'));
 });
 
 /**
@@ -88,16 +80,14 @@ gulp.task('staticjs', function() {
         errorHandler: onError
     }))
     .pipe(uglify())
-    .pipe(gulp.dest('assets/js/static'))
-    // .pipe(livereload(server));
+    .pipe(gulp.dest('assets/js/static'));
 });
 
 // Set up image minification
 gulp.task('images', function() {
     return gulp.src('uncompressed/images/**')
     .pipe(cache(imagemin({ optimizationLevel: 9, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('assets/images'))
-    // .pipe(livereload(server));
+    .pipe(gulp.dest('assets/images'));
 });
 
 // Fonts
@@ -153,62 +143,42 @@ gulp.task('jslint', function() {
  * -----------
  * UTILITIES
  *
+ * test
  * live-reload
  * watch
  * default
  * -----------
  */
 
+// Test
+gulp.task('test', function(){
+    console.log('testing with ' + gutil.colors.cyan('colour'));
+});
+
 // Livereload
-// gulp.task('listen', function(next) {
-//     server.listen(35728, function(err) {
-//         if (err) return console.log;
-//         next();
-//     });
-// });
-
-// var tinylr;
-// gulp.task('livereload', function() {
-//   lr = require('tiny-lr')();
-//   lr.listen(35729);
-// });
-
-// gulp.task('watch', function() {
-//   livereload.listen();
-//   gulp.watch('assets/css/*.css', ['sass']);
-// });
+gulp.task('listen', function(next) {
+    server.listen(35728, function(err) {
+        if (err) return console.log;
+        next();
+    });
+});
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    server.listen(35729, function(err) {
-        // .pipe(plumber({
-        //     errorHandler: onError
-        // }))
-        if (err) {
-            return onError(err);
-            // return gutil.log(err);
-        }
-        gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
-        gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
-        gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
-        gulp.watch('uncompressed/js/static/*.js', ['staticjs']);
-        gulp.watch('uncompressed/scss/*.scss', ['sass']);
-        gulp.watch('uncompressed/images/**', ['images']);
-        gulp.watch('uncompressed/fonts/**', ['fonts']);
-        gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
-        gutil.log('Watching source files for changes... Press ' + gutil.colors.cyan('CTRL + C') + ' to stop.');
-    })
-    // gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
-    // gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
-    // gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
-    // gulp.watch('uncompressed/js/static/*.js', ['staticjs']);
-    // gulp.watch('uncompressed/scss/*.scss', ['sass']);
-    // gulp.watch('uncompressed/images/**', ['images']);
-    // gulp.watch('uncompressed/fonts/**', ['fonts']);
-    // gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
-    // gulp.watch(['*.html','*.php','assets/css/*.css','assets/js/']).on('change', function(file) {
-    //     livereload(server).changed(file.path);
-    // });
+
+    gulp.watch('uncompressed/js/jquery/*.js', ['scripts']);
+    gulp.watch('uncompressed/js/vendor/*.js', ['scripts']);
+    gulp.watch('uncompressed/js/custom/*.js', ['scripts']);
+    gulp.watch('uncompressed/js/static/*.js', ['staticjs']);
+    gulp.watch('uncompressed/scss/*.scss', ['sass']);
+    gulp.watch('uncompressed/images/**', ['images']);
+    gulp.watch('uncompressed/fonts/**', ['fonts']);
+    gulp.watch('uncompressed/icons/**/*.svg', ['svg']);
+    gutil.log('Watching source files for changes... Press ' + gutil.colors.cyan('CTRL + C') + ' to stop.');
+
+    gulp.watch(['*.html','*.php','assets/css/*.css','assets/js/']).on('change', function(file) {
+        livereload(server).changed(file.path);
+    });
 });
 
 // Default Task
