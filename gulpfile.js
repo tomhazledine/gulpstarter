@@ -144,6 +144,7 @@ gulp.task('jslint', function() {
  * UTILITIES
  *
  * test
+ * project setup
  * live-reload
  * watch
  * default
@@ -154,6 +155,10 @@ gulp.task('jslint', function() {
 gulp.task('test', function(){
     console.log('testing with ' + gutil.colors.cyan('colour'));
 });
+
+// Project Setup
+// Catch-all task for getting up-and-running in a new location
+gulp.task('setup',['sass','scripts','staticjs','fonts','images','svg']);
 
 // Livereload
 gulp.task('listen', function(next) {
