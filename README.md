@@ -6,6 +6,8 @@ A standard Gulp package to drop into any generic web project.
 
 Run `npm install` to set-up the Gulp environment.
 
+---
+
 ## Core Tasks
 
 ### SASS
@@ -27,6 +29,8 @@ Run `npm install` to set-up the Gulp environment.
     - concat.
     - size
     - uglify
+
+---
 
 ## Occasionals
 
@@ -57,6 +61,8 @@ Run `npm install` to set-up the Gulp environment.
     - SVG sprite
     - clean intermediate files
 
+---
+
 ## Linters, etc.
 
 ### CSS Lint
@@ -68,6 +74,8 @@ Run `npm install` to set-up the Gulp environment.
 * Usage: `gulp jslint`
 * source: `uncompressed/js/custom/*.js`
 
+---
+
 ## Utilities
 
 ## Test
@@ -75,7 +83,7 @@ Run `npm install` to set-up the Gulp environment.
 
 ## Project Setup
 Catch-all task for getting up-and-running in a new location.
-* Usage: `gulp test`
+* Usage: `gulp setup`
 * tools:
     - `sass`
     - `scripts`
