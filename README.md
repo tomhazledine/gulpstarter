@@ -21,7 +21,7 @@ Run `npm install` to set-up the Gulp environment.
 
 ### Scripts
 * Usage: `gulp scripts`
-* source: `uncompressed/js/jquery/jquery.js`,`uncompressed/js/vendor/*.js`,`uncompressed/js/custom/*.js`
+* source: `uncompressed/js/jquery/jquery.js`, `uncompressed/js/vendor/*.js`, `uncompressed/js/custom/*.js`
 * output: `assets/js` (`app.js`, `app.min.js`)
 * tools:
     - concat.
