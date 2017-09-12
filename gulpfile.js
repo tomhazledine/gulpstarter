@@ -23,6 +23,7 @@ var lr           = require( 'tiny-lr' );
 var server       = lr();
 
 var svgConfig = {};
+var svgOutput = '';
 
 // This will handle our errors
 var onError = function errors( err ) {
@@ -94,22 +95,33 @@ gulp.task( 'images', function() {
 });
 
 // SVG Sprite
+
 svgConfig = {
     shape: {
         dest: 'intermediate'
     },
     mode: {
-        bust: true,
-        sprite: 'sprite.<mode>.svg',
         symbol: true
+    },
+    svg: {
+        xmlDeclaration: false,
+        doctypeDeclaration: false,
+        namespaceIDs: false,
+        namespaceClassnames: false
     }
 };
-gulp.task( 'svg', function() {
+gulp.task( 'svg_build', function() {
     gulp.src( 'uncompressed/icons/**/*.svg' )
     .pipe( svgSprite( svgConfig ) )
     .pipe( gulp.dest( 'assets/icons' ) );
 });
 
+svgOutput = 'html';
+gulp.task( 'svg_rename', ['svg_build'], function() {
+    return gulp.src( 'assets/icons/symbol/svg/*.svg' )
+    .pipe( rename( 'iconsprite.svg.' + svgOutput ) )
+    .pipe( gulp.dest( 'assets/icons' ) );
+});
 /**
  * -------------
  * LINTERS, ETC.
