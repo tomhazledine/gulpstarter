@@ -3,6 +3,7 @@ var gulp         = require( 'gulp' );
 
 // Include Our Plugins
 var autoprefixer = require( 'gulp-autoprefixer' );
+var babel        = require( 'gulp-babel');
 var cache        = require( 'gulp-cache' );
 var concat       = require( 'gulp-concat' );
 var imagemin     = require( 'gulp-imagemin' );
@@ -51,8 +52,11 @@ gulp.task( 'sass', function() {
 });
 
 // Concatenate & Minify JS
-gulp.task( 'scripts', function() {
+gulp.task( 'js', function() {
     return gulp.src(['uncompressed/js/vendor/*.js', 'uncompressed/js/custom/*.js'])
+    .pipe(babel({
+        presets: ['env']
+    }))
     .pipe( plumber({
         errorHandler: onError
     }) )

@@ -21,11 +21,12 @@ Run `npm install` to set-up the Gulp environment.
     - size
     - minify
 
-### Scripts
-* Usage: `gulp scripts`
+### JavaScript
+* Usage: `gulp js`
 * source: `uncompressed/js/jquery/jquery.js`, `uncompressed/js/vendor/*.js`, `uncompressed/js/custom/*.js`
 * output: `assets/js` (`app.js`, `app.min.js`)
 * tools:
+    - babel (transpiles ES6 for older browsers)
     - concat.
     - size
     - uglify
