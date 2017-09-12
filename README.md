@@ -49,11 +49,6 @@ Run `npm install` to set-up the Gulp environment.
 * tools:
     - imagemin
 
-### Fonts
-* Usage: `gulp fonts`
-* source: `uncompressed/fonts/**`
-* output: `assets/fonts`
-
 ### SVG Sprites
 * Usage: `gulp svg`
 * source: `uncompressed/icons/**/*.svg`

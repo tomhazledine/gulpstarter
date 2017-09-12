@@ -54,12 +54,8 @@ gulp.task( 'sass', function() {
 // Concatenate & Minify JS
 gulp.task( 'js', function() {
     return gulp.src(['uncompressed/js/vendor/*.js', 'uncompressed/js/custom/*.js'])
-    .pipe(babel({
-        presets: ['env']
-    }))
-    .pipe( plumber({
-        errorHandler: onError
-    }) )
+    .pipe(babel({ presets: ['env'] }))
+    .pipe( plumber({ errorHandler: onError }) )
     .pipe( concat( 'app.js' ) )
     .pipe( size({ title: 'js' }) )
     .pipe( gulp.dest( 'assets/js' ) )
@@ -95,12 +91,6 @@ gulp.task( 'images', function() {
     return gulp.src( 'uncompressed/images/**' )
     .pipe( cache( imagemin({ optimizationLevel: 9, progressive: true, interlaced: true }) ) )
     .pipe( gulp.dest( 'assets/images' ) );
-});
-
-// Fonts
-gulp.task( 'fonts', function() {
-    return gulp.src( 'uncompressed/fonts/**' )
-    .pipe( gulp.dest( 'assets/fonts/' ) );
 });
 
 // SVG Sprite

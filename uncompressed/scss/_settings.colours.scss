@@ -21,10 +21,10 @@ $black:#111;
 
 // Selection Colours
 ::selection{
-  color:$white;
-  background:$black;
+    color:$white;
+    background:$black;
 }
 a::selection{
-  color:$black;
-  background:$white;
+    color:$black;
+    background:$white;
 }
