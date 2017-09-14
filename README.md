@@ -36,7 +36,7 @@ Run `npm install` to set-up the Gulp environment.
 ## Occasionals
 
 ### Static JS
-* Usage: `gulp staticjs`
+* Usage: `gulp js-static`
 * source: `uncompressed/js/static/*.js`
 * output: `assets/js/static` (`*.js`)
 * tools:
@@ -62,28 +62,25 @@ Run `npm install` to set-up the Gulp environment.
 ## Linters, etc.
 
 ### CSS Lint
-* Usage: `gulp scss-lint`
+* Usage: `gulp sass-lint`
 * source: `uncompressed/scss/*.scss`
 * config.: `defaultLint.yml`
 
 ### JS Lint
-* Usage: `gulp jslint`
+* Usage: `gulp js-lint`
 * source: `uncompressed/js/custom/*.js`
 
 ---
 
 ## Utilities
 
-## Test
-* Usage: `gulp test`
 
 ## Project Setup
 Catch-all task for getting up-and-running in a new location.
 * Usage: `gulp setup`
 * tools:
     - `sass`
-    - `scripts`
-    - `staticjs`
-    - `fonts`
+    - `js`
+    - `js-static`
     - `images`
     - `svg`
