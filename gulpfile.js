@@ -21,8 +21,7 @@ let gutil        = require( 'gulp-util' );
 let lr           = require( 'tiny-lr' );
 let server       = lr();
 
-let svgConfig = {};
-let svgOutput = '';
+let svgOptions = {};
 
 // This will handle our errors
 let onError = function errors( err ) {
@@ -93,7 +92,7 @@ gulp.task( 'images', () => {
 });
 
 // SVG Sprite
-svgConfig = {
+svgOptions.svgConfig = {
     shape: {
         dest: 'intermediate'
     },
@@ -109,13 +108,13 @@ svgConfig = {
 };
 gulp.task( 'svg_build', () => {
     return gulp.src( 'uncompressed/icons/**/*.svg' )
-    .pipe( svgSprite( svgConfig ) )
+    .pipe( svgSprite( svgOptions.svgConfig ) )
     .pipe( gulp.dest( 'assets/icons' ) );
 });
-svgOutput = 'html';
+svgOptions.svgOutput = 'html';
 gulp.task( 'svg_rename', () => {
     return gulp.src( 'assets/icons/symbol/svg/*.svg' )
-    .pipe( rename( `iconsprite.svg.${svgOutput}` ) )
+    .pipe( rename( `iconsprite.svg.${svgOptions.svgOutput}` ) )
     .pipe( gulp.dest( 'assets/icons' ) );
 });
 gulp.task('svg',
