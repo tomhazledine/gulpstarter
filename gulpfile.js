@@ -8,7 +8,6 @@ var cache        = require( 'gulp-cache' );
 var concat       = require( 'gulp-concat' );
 var imagemin     = require( 'gulp-imagemin' );
 var jshint       = require( 'gulp-jshint' );
-var jscs         = require( 'gulp-jscs' );
 var livereload   = require( 'gulp-livereload' );
 var cleancss     = require( 'gulp-clean-css' );
 var plumber      = require( 'gulp-plumber' );
@@ -72,13 +71,12 @@ gulp.task( 'js', function() {
  *
  * static js
  * image minification
- * fonts
  * svg sprites
  * ------------
  */
 
 // Minify and transfer static JS files
-gulp.task( 'staticjs', function() {
+gulp.task( 'js-static', function() {
     return gulp.src(['uncompressed/js/static/*.js', 'uncompressed/js/jquery/jquery.js'])
     .pipe( plumber({
         errorHandler: onError
@@ -95,7 +93,6 @@ gulp.task( 'images', function() {
 });
 
 // SVG Sprite
-
 svgConfig = {
     shape: {
         dest: 'intermediate'
@@ -111,17 +108,23 @@ svgConfig = {
     }
 };
 gulp.task( 'svg_build', function() {
-    gulp.src( 'uncompressed/icons/**/*.svg' )
+    return gulp.src( 'uncompressed/icons/**/*.svg' )
     .pipe( svgSprite( svgConfig ) )
     .pipe( gulp.dest( 'assets/icons' ) );
 });
-
 svgOutput = 'html';
-gulp.task( 'svg_rename', ['svg_build'], function() {
+gulp.task( 'svg_rename', function() {
     return gulp.src( 'assets/icons/symbol/svg/*.svg' )
     .pipe( rename( 'iconsprite.svg.' + svgOutput ) )
     .pipe( gulp.dest( 'assets/icons' ) );
 });
+gulp.task('svg',
+    gulp.series(
+        'svg_build',
+        'svg_rename'
+    )
+);
+
 /**
  * -------------
  * LINTERS, ETC.
@@ -132,29 +135,22 @@ gulp.task( 'svg_rename', ['svg_build'], function() {
  */
 
 // Lets lint our CSS
-gulp.task( 'scss-lint', function() {
-    gulp.src( 'uncompressed/scss/*.scss' )
+gulp.task( 'sass-lint', function() {
+    return gulp.src( 'uncompressed/scss/*.scss' )
     .pipe( scsslint({ 'config': 'defaultLint.yml' }) );
 });
 
 // Lets lint our JS
-gulp.task( 'jslint', function() {
+gulp.task( 'js-lint', function() {
     return gulp.src( 'uncompressed/js/custom/*.js' )
     .pipe( jshint() )
     .pipe( jshint.reporter( 'default' ) );
-});
-
-gulp.task( 'jscs', function() {
-    return gulp.src( 'uncompressed/js/custom/*.js' )
-    .pipe( jscs() )
-    .pipe( jscs.reporter() );
 });
 
 /**
  * -----------
  * UTILITIES
  *
- * test
  * project setup
  * live-reload
  * watch
@@ -162,14 +158,17 @@ gulp.task( 'jscs', function() {
  * -----------
  */
 
-// Test
-gulp.task( 'test', function() {
-    console.log( 'testing with ' + gutil.colors.cyan( 'colour' ) );
-});
-
 // Project Setup
 // Catch-all task for getting up-and-running in a new location
-gulp.task( 'setup', ['sass', 'scripts', 'staticjs', 'fonts', 'images', 'svg'] );
+gulp.task( 'setup', 
+    gulp.series(
+        'sass',
+        'js',
+        'js-static',
+        'images',
+        'svg'
+    )
+);
 
 // Livereload
 gulp.task( 'listen', function( next ) {
@@ -182,22 +181,26 @@ gulp.task( 'listen', function( next ) {
 });
 
 // Watch Files For Changes
-gulp.task( 'watch', function() {
-
-    gulp.watch( 'uncompressed/js/jquery/*.js', ['scripts'] );
-    gulp.watch( 'uncompressed/js/vendor/*.js', ['scripts'] );
-    gulp.watch( 'uncompressed/js/custom/*.js', ['scripts'] );
-    gulp.watch( 'uncompressed/js/static/*.js', ['staticjs'] );
-    gulp.watch( 'uncompressed/scss/*.scss', ['sass'] );
-    gulp.watch( 'uncompressed/images/**', ['images'] );
-    gulp.watch( 'uncompressed/fonts/**', ['fonts'] );
-    gulp.watch( 'uncompressed/icons/**/*.svg', ['svg'] );
-    gutil.log( 'Watching source files for changes... Press ' + gutil.colors.cyan( 'CTRL + C' ) + ' to stop.' );
-
-    gulp.watch( ['*.html', '*.php', 'assets/css/*.css', 'assets/js/'] ).on( 'change', function( file ) {
-        livereload( server ).changed( file.path );
-    });
-});
+gulp.task('watch', gulp.parallel(
+    function  watchMessage() {
+        return gutil.log( 'Watching source files for changes... Press ' + gutil.colors.cyan( 'CTRL + C' ) + ' to stop.' );
+    },
+    function     sassWatch() { gulp.watch('uncompressed/scss/*.scss',    gulp.parallel('sass')      );},
+    function       jsWatch() { gulp.watch('uncompressed/js/custom/*.js', gulp.parallel('js')        );},
+    function staticJsWatch() { gulp.watch('uncompressed/js/static/*.js', gulp.parallel('js-static') );},
+    function      svgWatch() { gulp.watch('uncompressed/icons/**/*.svg', gulp.parallel('svg')       );},
+    function   imagesWatch() { gulp.watch('uncompressed/images/**',      gulp.parallel('images')    );},
+    function triggerReload() {
+        gulp.watch( [
+            '*.html',
+            'assets/css/*.css',
+            'assets/js/',
+            'assets/icons/iconsprite.svg.' + svgOutput
+        ] ).on( 'change', function( file ) {
+            livereload( server ).changed( file.path );
+        });
+    }
+));
 
 // Default Task
-gulp.task( 'default', ['watch'] );
+gulp.task( 'default', gulp.series('watch') );
