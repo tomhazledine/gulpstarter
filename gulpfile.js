@@ -1,31 +1,31 @@
 // Include gulp
-var gulp         = require( 'gulp' );
+let gulp         = require( 'gulp' );
 
 // Include Our Plugins
-var autoprefixer = require( 'gulp-autoprefixer' );
-var babel        = require( 'gulp-babel');
-var cache        = require( 'gulp-cache' );
-var concat       = require( 'gulp-concat' );
-var imagemin     = require( 'gulp-imagemin' );
-var jshint       = require( 'gulp-jshint' );
-var livereload   = require( 'gulp-livereload' );
-var cleancss     = require( 'gulp-clean-css' );
-var plumber      = require( 'gulp-plumber' );
-var rename       = require( 'gulp-rename' );
-var sass         = require( 'gulp-sass' );
-var scsslint     = require( 'gulp-scss-lint' );
-var size         = require( 'gulp-size' );
-var svgSprite    = require( 'gulp-svg-sprite' );
-var uglify       = require( 'gulp-uglify' );
-var gutil        = require( 'gulp-util' );
-var lr           = require( 'tiny-lr' );
-var server       = lr();
+let autoprefixer = require( 'gulp-autoprefixer' );
+let babel        = require( 'gulp-babel');
+let cache        = require( 'gulp-cache' );
+let concat       = require( 'gulp-concat' );
+let imagemin     = require( 'gulp-imagemin' );
+let jshint       = require( 'gulp-jshint' );
+let livereload   = require( 'gulp-livereload' );
+let cleancss     = require( 'gulp-clean-css' );
+let plumber      = require( 'gulp-plumber' );
+let rename       = require( 'gulp-rename' );
+let sass         = require( 'gulp-sass' );
+let scsslint     = require( 'gulp-scss-lint' );
+let size         = require( 'gulp-size' );
+let svgSprite    = require( 'gulp-svg-sprite' );
+let uglify       = require( 'gulp-uglify' );
+let gutil        = require( 'gulp-util' );
+let lr           = require( 'tiny-lr' );
+let server       = lr();
 
-var svgConfig = {};
-var svgOutput = '';
+let svgConfig = {};
+let svgOutput = '';
 
 // This will handle our errors
-var onError = function errors( err ) {
+let onError = function errors( err ) {
     gutil.log( gutil.colors.red( err ) );
 };
 
@@ -39,7 +39,7 @@ var onError = function errors( err ) {
  */
 
 // Compile Our Sass
-gulp.task( 'sass', function() {
+gulp.task( 'sass', () => {
     return gulp.src( 'uncompressed/scss/*.scss' )
     .pipe( sass().on( 'error', sass.logError ) )
     .pipe( autoprefixer( 'last 2 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4' ) )
@@ -52,7 +52,7 @@ gulp.task( 'sass', function() {
 });
 
 // Concatenate & Minify JS
-gulp.task( 'js', function() {
+gulp.task( 'js', () => {
     return gulp.src(['uncompressed/js/vendor/*.js', 'uncompressed/js/custom/*.js'])
     .pipe(babel({ presets: ['env'] }))
     .pipe( plumber({ errorHandler: onError }) )
@@ -76,7 +76,7 @@ gulp.task( 'js', function() {
  */
 
 // Minify and transfer static JS files
-gulp.task( 'js-static', function() {
+gulp.task( 'js-static', () => {
     return gulp.src(['uncompressed/js/static/*.js', 'uncompressed/js/jquery/jquery.js'])
     .pipe( plumber({
         errorHandler: onError
@@ -86,7 +86,7 @@ gulp.task( 'js-static', function() {
 });
 
 // Set up image minification
-gulp.task( 'images', function() {
+gulp.task( 'images', () => {
     return gulp.src( 'uncompressed/images/**' )
     .pipe( cache( imagemin({ optimizationLevel: 9, progressive: true, interlaced: true }) ) )
     .pipe( gulp.dest( 'assets/images' ) );
@@ -107,15 +107,15 @@ svgConfig = {
         namespaceClassnames: false
     }
 };
-gulp.task( 'svg_build', function() {
+gulp.task( 'svg_build', () => {
     return gulp.src( 'uncompressed/icons/**/*.svg' )
     .pipe( svgSprite( svgConfig ) )
     .pipe( gulp.dest( 'assets/icons' ) );
 });
 svgOutput = 'html';
-gulp.task( 'svg_rename', function() {
+gulp.task( 'svg_rename', () => {
     return gulp.src( 'assets/icons/symbol/svg/*.svg' )
-    .pipe( rename( 'iconsprite.svg.' + svgOutput ) )
+    .pipe( rename( `iconsprite.svg.${svgOutput}` ) )
     .pipe( gulp.dest( 'assets/icons' ) );
 });
 gulp.task('svg',
@@ -135,13 +135,13 @@ gulp.task('svg',
  */
 
 // Lets lint our CSS
-gulp.task( 'sass-lint', function() {
+gulp.task( 'sass-lint', () => {
     return gulp.src( 'uncompressed/scss/*.scss' )
     .pipe( scsslint({ 'config': 'defaultLint.yml' }) );
 });
 
 // Lets lint our JS
-gulp.task( 'js-lint', function() {
+gulp.task( 'js-lint', () => {
     return gulp.src( 'uncompressed/js/custom/*.js' )
     .pipe( jshint() )
     .pipe( jshint.reporter( 'default' ) );
@@ -171,8 +171,8 @@ gulp.task( 'setup',
 );
 
 // Livereload
-gulp.task( 'listen', function( next ) {
-    server.listen( 35728, function( err ) {
+gulp.task( 'listen', next => {
+    server.listen( 35728, err => {
         if ( err ) {
             return console.log;
         }
@@ -183,7 +183,8 @@ gulp.task( 'listen', function( next ) {
 // Watch Files For Changes
 gulp.task('watch', gulp.parallel(
     function  watchMessage() {
-        return gutil.log( 'Watching source files for changes... Press ' + gutil.colors.cyan( 'CTRL + C' ) + ' to stop.' );
+        let highlight = gutil.colors.cyan( 'CTRL + C' );
+        return gutil.log( `Watching source files for changes... Press ${highlight} to stop.` );
     },
     function     sassWatch() { gulp.watch('uncompressed/scss/*.scss',    gulp.parallel('sass')      );},
     function       jsWatch() { gulp.watch('uncompressed/js/custom/*.js', gulp.parallel('js')        );},
@@ -196,7 +197,7 @@ gulp.task('watch', gulp.parallel(
             'assets/css/*.css',
             'assets/js/',
             'assets/icons/iconsprite.svg.' + svgOutput
-        ] ).on( 'change', function( file ) {
+        ] ).on( 'change', file => {
             livereload( server ).changed( file.path );
         });
     }
