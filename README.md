@@ -16,8 +16,7 @@ Run `npm install` to set-up the Gulp environment. You'll need to have [Node](htt
 
 ### SASS
 
-Takes `.scss` files from the source directory and outputs our compressed and pre-processed production files into the output directory.
-
+* **Why do we want to do this?** Using Sass means that we can get more functionality from our CSS without adding any additional performance overhead. We can can break our css code into easier-to-understand partials and use variables and functions, but *still* only serve one static asset to the browser (pre-processing === compiling). We can also improve cross-browser support and further optimize our css with the use of extra automated tools (e.g. checking for errors before compilation, automatically applying vendor prefixes for newer features, minifying our output...).
 * Usage: `gulp sass`
 * source: `uncompressed/scss/*.scss`
 * output: `assets/css` (Created two versions - `*.css` & `*.min.css`)
@@ -28,6 +27,8 @@ Takes `.scss` files from the source directory and outputs our compressed and pre
     - minify: removes whitespace and line-breaks and comments to make the final file smaller
 
 ### JavaScript
+
+* **Why do we want to do this?** New language features (ES6, ES2017, ESNext, etc.) are available for most modern browsers, but we still need to transpile and polyfill for full cross-browser support. Much like with our CSS, we want to serve as few assets as possible - ideally just one. Using this Gulp task lets us write our code in neat partials and then concatenates them automatically. It also checks our code for syntax errors and minifies the final output.
 * Usage: `gulp js`
 * source: `uncompressed/js/jquery/jquery.js`, `uncompressed/js/vendor/*.js`, `uncompressed/js/custom/*.js`
 * output: `assets/js` (`app.js`, `app.min.js`)
@@ -42,6 +43,7 @@ Takes `.scss` files from the source directory and outputs our compressed and pre
 ## Occasionals
 
 ### Static JS
+* **Why do we want to do this?** Even though we only really want to serve one single JS file to the browser, we sometimes need to generate separate files. This can be useful for conditionally loaded scripts (e.g. <IE9 polyfills ) or library files that we think will benefit from browser caching.
 * Usage: `gulp js-static`
 * source: `uncompressed/js/static/*.js`
 * output: `assets/js/static` (`*.js`)
@@ -49,6 +51,7 @@ Takes `.scss` files from the source directory and outputs our compressed and pre
     - uglify
 
 ### Images
+* **Why do we want to do this?** Images are big and slow. This is a simplistic attempt to optimize them. Needs more work and file support etc.
 * Usage: `gulp images`
 * source: `uncompressed/images/**`
 * output: `assets/images`
@@ -56,6 +59,7 @@ Takes `.scss` files from the source directory and outputs our compressed and pre
     - imagemin
 
 ### SVG Sprites
+* **Why do we want to do this?** For a full explanation of SVG Sprites, read my post on [what they are, why we want them, and how to use them](https://tomhazledine.com/inline-svg-icon-sprites/).
 * Usage: `gulp svg`
 * source: `uncompressed/icons/**/*.svg`
 * output: `assets/icons` (`*.js`)
